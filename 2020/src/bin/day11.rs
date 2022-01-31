@@ -14,7 +14,7 @@ enum Seat {
 }
 
 impl Seat {
-    fn is_occupied(self: &Self) -> bool {
+    fn is_occupied(&self) -> bool {
         if *self == Self::Occupied {
             return true;
         }
@@ -22,7 +22,7 @@ impl Seat {
         false
     }
 
-    fn is_floor(self: &Self) -> bool {
+    fn is_floor(&self) -> bool {
         if *self == Self::Floor {
             return true;
         }
@@ -30,7 +30,7 @@ impl Seat {
         false
     }
 
-    fn is_empty(self: &Self) -> bool {
+    fn is_empty(&self) -> bool {
         if *self == Self::Empty {
             return true;
         }
@@ -38,7 +38,7 @@ impl Seat {
         false
     }
 
-    fn occupy(self: &mut Self) {
+    fn occupy(&mut self) {
         if self.is_occupied() || self.is_floor() {
             return;
         }
@@ -46,7 +46,7 @@ impl Seat {
         *self = Self::Occupied
     }
 
-    fn empty(self: &mut Self) {
+    fn empty(&mut self) {
         if self.is_empty() || self.is_floor() {
             return;
         }
@@ -94,9 +94,8 @@ fn main() -> Result<()> {
             for j in 0..rows[0].len() {
                 let occupied_seats = get_adjacent_occupied_2(&rows, i, j)
                     .iter()
-                    .filter(|seat| **seat == true)
-                    .collect::<Vec<&bool>>()
-                    .len();
+                    .filter(|seat| **seat)
+                    .count();
 
                 let curr = &mut temp[i][j];
                 if curr.is_floor() {
@@ -125,8 +124,7 @@ fn main() -> Result<()> {
         })
         .flatten()
         .filter(|seat| *seat)
-        .collect::<Vec<bool>>()
-        .len();
+        .count();
     println!("Answer -> {}", unoccupied);
 
     Ok(())
@@ -178,7 +176,7 @@ fn main() -> Result<()> {
 //     occupied_seats
 // }
 
-fn get_adjacent_occupied_2(rows: &Vec<Vec<Seat>>, row_id: usize, col_id: usize) -> Vec<bool> {
+fn get_adjacent_occupied_2(rows: &[Vec<Seat>], row_id: usize, col_id: usize) -> Vec<bool> {
     let mut occupied_seats: Vec<bool> = vec![];
 
     // all seats up
@@ -198,8 +196,8 @@ fn get_adjacent_occupied_2(rows: &Vec<Vec<Seat>>, row_id: usize, col_id: usize) 
     }
 
     // all seats down
-    for i in row_id + 1..rows.len() {
-        let curr = &rows[i][col_id];
+    for row in rows.iter().skip(row_id + 1) {
+        let curr = &row[col_id];
         if curr.is_floor() {
             continue;
         }

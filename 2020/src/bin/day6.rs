@@ -13,13 +13,12 @@ fn main() -> Result<()> {
             .iter()
             .map(|group| {
                 group
-                    .split("\n")
+                    .split('\n')
                     .map(|person| person.parse::<String>().expect("person is not a string"))
                     .map::<Vec<char>, fn(String) -> Vec<char>>(|person| person.chars().collect())
                     .flatten()
                     .unique()
-                    .collect::<Vec<char>>()
-                    .len()
+                    .count()
             })
             .sum::<usize>()
     );
@@ -30,7 +29,7 @@ fn main() -> Result<()> {
             .iter()
             .map(|group| {
                 let persons: Vec<String> = group
-                    .split("\n")
+                    .split('\n')
                     .map(|person| person.parse::<String>().expect("person is not a string"))
                     .collect();
 

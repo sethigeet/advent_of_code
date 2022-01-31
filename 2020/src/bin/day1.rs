@@ -53,7 +53,7 @@ fn main() -> Result<()> {
         .collect();
 
     println!("Part 1: {}", solve(nums.clone(), 2));
-    println!("Part 2: {}", solve(nums.clone(), 3));
+    println!("Part 2: {}", solve(nums, 3));
 
     Ok(())
 }

@@ -38,7 +38,7 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn get_num_ways(joltages: &Vec<u32>, pos: usize, cache: &mut HashMap<usize, u128>) -> u128 {
+fn get_num_ways(joltages: &[u32], pos: usize, cache: &mut HashMap<usize, u128>) -> u128 {
     if pos == (joltages.len() - 1) {
         return 1;
     }
@@ -56,5 +56,5 @@ fn get_num_ways(joltages: &Vec<u32>, pos: usize, cache: &mut HashMap<usize, u128
 
     cache.insert(pos, total);
 
-    return total;
+    total
 }

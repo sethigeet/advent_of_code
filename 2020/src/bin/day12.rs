@@ -19,7 +19,7 @@ impl FromStr for Instruction {
     type Err = Error;
 
     fn from_str(s: &str) -> Result<Self> {
-        let instruction: char = s.chars().nth(0).unwrap();
+        let instruction: char = s.chars().next().unwrap();
         let val: i32 = s[1..].parse().expect("val is not a number");
         match instruction {
             'N' => Ok(Self::North(val)),
@@ -54,7 +54,7 @@ impl Pos {
         }
     }
 
-    fn change_pos(self: &mut Self, instruction: &Instruction) {
+    fn change_pos(&mut self, instruction: &Instruction) {
         match instruction {
             Instruction::North(val) => self.ns += val,
             Instruction::South(val) => self.ns -= val,
@@ -160,7 +160,7 @@ impl Pos {
         }
     }
 
-    fn change_pos_2(self: &mut Self, instruction: &Instruction, waypoint_pos: &Pos) {
+    fn change_pos_2(&mut self, instruction: &Instruction, waypoint_pos: &Pos) {
         match instruction {
             Instruction::Forward(val) => {
                 self.ns += val * waypoint_pos.ns;
@@ -171,7 +171,7 @@ impl Pos {
         }
     }
 
-    fn change_pos_2_2(self: &mut Self, instruction: &Instruction) {
+    fn change_pos_2_2(&mut self, instruction: &Instruction) {
         match instruction {
             Instruction::Left(val) => {
                 let num_turns = (val / 90) % 4;
@@ -232,11 +232,11 @@ fn main() -> Result<()> {
     };
     instructions
         .iter()
-        .for_each(|instruction| match instruction {
-            &Instruction::Forward(_) => ship_pos.change_pos_2(instruction, &waypoint_pos),
+        .for_each(|instruction| match *instruction {
+            Instruction::Forward(_) => ship_pos.change_pos_2(instruction, &waypoint_pos),
 
-            &Instruction::Left(_) => waypoint_pos.change_pos_2_2(instruction),
-            &Instruction::Right(_) => waypoint_pos.change_pos_2_2(instruction),
+            Instruction::Left(_) => waypoint_pos.change_pos_2_2(instruction),
+            Instruction::Right(_) => waypoint_pos.change_pos_2_2(instruction),
 
             _ => waypoint_pos.change_pos(instruction),
         });

@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-fn get_num_trees(forest: &Vec<Vec<char>>, slope: (usize, usize)) -> u32 {
+fn get_num_trees(forest: &[Vec<char>], slope: (usize, usize)) -> u32 {
     let forest_width = forest[0].len();
 
     let mut pos: (usize, usize) = (0, 0);

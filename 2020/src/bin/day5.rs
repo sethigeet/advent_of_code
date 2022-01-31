@@ -19,7 +19,7 @@ impl BoardingPass {
         }
     }
 
-    fn get_row(self: &Self) -> usize {
+    fn get_row(&self) -> usize {
         let mut range: (usize, usize) = (0, TOTAL_ROWS - 1);
 
         let mut i = 0;
@@ -45,7 +45,7 @@ impl BoardingPass {
         }
     }
 
-    fn get_col(self: &Self) -> usize {
+    fn get_col(&self) -> usize {
         let mut range: (usize, usize) = (0, TOTAL_COLS - 1);
 
         let mut i = 0;
@@ -71,7 +71,7 @@ impl BoardingPass {
         }
     }
 
-    fn get_seat_id(self: &Self) -> usize {
+    fn get_seat_id(&self) -> usize {
         (self.get_row() * 8) + self.get_col()
     }
 }

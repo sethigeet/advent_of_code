@@ -5,8 +5,7 @@ use anyhow::Result;
 fn main() -> Result<()> {
     let input = std::fs::read_to_string("./data/inputs/13.txt")?;
     let arrival_time: u128 = input
-        .lines()
-        .nth(0)
+        .lines().next()
         .unwrap()
         .to_string()
         .parse()
@@ -16,7 +15,7 @@ fn main() -> Result<()> {
         .nth(1)
         .unwrap()
         .to_string()
-        .split(",")
+        .split(',')
         .map(|bus| if bus == "x" { "0" } else { bus })
         .map(|bus| bus.parse().expect("bus no is not a number"))
         .collect();

@@ -34,7 +34,7 @@ struct MemVal {
 }
 
 impl MemVal {
-    fn apply_mask(self: &mut Self, mask: &Mask) {
+    fn apply_mask(&mut self, mask: &Mask) {
         let mut str_val = format!("{:0>36}", format!("{:b}", self.val));
         for (i, bit) in mask.mask.chars().enumerate() {
             if bit == 'X' {
@@ -47,7 +47,7 @@ impl MemVal {
         self.masked_val = u64::from_str_radix(&str_val, 2).expect("str_val is not a base-2 number");
     }
 
-    fn apply_mask_2(self: &mut Self, mask: &Mask) {
+    fn apply_mask_2(&mut self, mask: &Mask) {
         let mut str_val = format!("{:0>36}", format!("{:b}", self.addr));
         for (i, bit) in mask.mask.chars().enumerate() {
             if bit == '0' {
@@ -58,9 +58,9 @@ impl MemVal {
         }
 
         let mut temp: Vec<String> = vec![str_val];
-        while temp.len() > 0 {
+        while !temp.is_empty() {
             if let Some(mut val) = temp.pop() {
-                if let Some(idx) = val.find("X") {
+                if let Some(idx) = val.find('X') {
                     val.replace_range(idx..idx + 1, "1");
                     temp.push(val.clone());
                     val.replace_range(idx..idx + 1, "0");

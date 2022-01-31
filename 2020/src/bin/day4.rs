@@ -42,7 +42,7 @@ impl Passport {
         }
     }
 
-    fn is_valid_1(self: &Self) -> bool {
+    fn is_valid_1(&self) -> bool {
         !(self.byr == None
             || self.iyr == None
             || self.eyr == None
@@ -52,7 +52,7 @@ impl Passport {
             || self.pid == None)
     }
 
-    fn is_valid_2(self: &Self) -> bool {
+    fn is_valid_2(&self) -> bool {
         if !self.is_valid_1() {
             return false;
         }
@@ -69,8 +69,8 @@ impl Passport {
         let unit = &hgt[hgt.len() - 2..];
         let hgt: u8 = hgt[..hgt.len() - 2].parse().unwrap_or(0);
         if match unit {
-            "cm" => hgt < 150 || hgt > 193,
-            "in" => hgt < 59 || hgt > 76,
+            "cm" => !(150..=193).contains(&hgt),
+            "in" => !(59..=76).contains(&hgt),
 
             _ => true,
         } {
@@ -78,7 +78,7 @@ impl Passport {
         };
 
         let hcl = self.hcl.as_ref().unwrap();
-        if !(hcl.len() == 7 || hcl.starts_with("#")) {
+        if !(hcl.len() == 7 || hcl.starts_with('#')) {
             return false;
         }
         let hcl = &hcl[1..];
@@ -107,7 +107,7 @@ impl FromStr for Passport {
 
         let props = s
             .lines()
-            .map::<Vec<&str>, fn(&str) -> Vec<&str>>(|line| line.split(" ").collect())
+            .map::<Vec<&str>, fn(&str) -> Vec<&str>>(|line| line.split(' ').collect())
             .flatten();
 
         for prop in props {

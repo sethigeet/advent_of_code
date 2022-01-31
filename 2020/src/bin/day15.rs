@@ -2,11 +2,11 @@ use std::collections::HashMap;
 
 use anyhow::Result;
 
-fn get_nth_num(nums: &Vec<usize>, n: usize) -> usize {
+fn get_nth_num(nums: &[usize], n: usize) -> usize {
     let mut counts: HashMap<usize, Vec<usize>> = HashMap::new();
 
     nums.iter().enumerate().for_each(|(i, num)| {
-        counts.insert(*num, vec![(i + 1).into()]);
+        counts.insert(*num, vec![(i + 1)]);
     });
 
     let mut prev_num = nums[nums.len() - 1];
@@ -31,7 +31,7 @@ fn get_nth_num(nums: &Vec<usize>, n: usize) -> usize {
 
 fn main() -> Result<()> {
     let nums: Vec<usize> = std::fs::read_to_string("./data/inputs/15.txt")?
-        .split(",")
+        .split(',')
         .map(|line| line.parse().expect("line is not a number"))
         .collect();
 

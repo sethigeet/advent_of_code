@@ -27,23 +27,15 @@ impl Command {
         Command { instruction: inst }
     }
 
-    fn is_jmp(self: &Self) -> bool {
-        if let Instruction::Jmp(_) = self.instruction {
-            true
-        } else {
-            false
-        }
+    fn is_jmp(&self) -> bool {
+        matches!(self.instruction, Instruction::Jmp(_))
     }
 
-    fn is_nop(self: &Self) -> bool {
-        if let Instruction::Nop(_) = self.instruction {
-            true
-        } else {
-            false
-        }
+    fn is_nop(&self) -> bool {
+        matches!(self.instruction, Instruction::Nop(_))
     }
 
-    fn change_jmp_to_nop(self: &mut Self) {
+    fn change_jmp_to_nop(&mut self) {
         if !self.is_jmp() {
             panic!("command does not have a jmp instruction")
         }
@@ -53,7 +45,7 @@ impl Command {
         }
     }
 
-    fn change_nop_to_jmp(self: &mut Self) {
+    fn change_nop_to_jmp(&mut self) {
         if !self.is_nop() {
             panic!("command does not have a nop instruction")
         }
@@ -79,7 +71,7 @@ impl FromStr for Command {
     }
 }
 
-fn get_acc_if_infi(cmds: &Vec<Command>, brk: bool) -> Option<i32> {
+fn get_acc_if_infi(cmds: &[Command], brk: bool) -> Option<i32> {
     let mut run: Vec<usize> = vec![];
     let mut acc: i32 = 0;
     let mut i: i32 = 0;
@@ -135,8 +127,7 @@ fn main() -> Result<()> {
             cmds[*id].change_nop_to_jmp();
             ans
         })
-        .filter(|val| val != &None)
-        .next()
+        .find(|val| val != &None)
         .expect("unable to brute-force")
         .unwrap();
 

@@ -47,7 +47,7 @@ impl Password {
         Password { val, policy }
     }
 
-    fn is_valid_1(self: &Self) -> bool {
+    fn is_valid_1(&self) -> bool {
         let count = self.val.matches(&String::from(self.policy.letter)).count();
 
         if count < self.policy.min || count > self.policy.max {
@@ -57,7 +57,7 @@ impl Password {
         true
     }
 
-    fn is_valid_2(self: &Self) -> bool {
+    fn is_valid_2(&self) -> bool {
         let pr_at_pos_1 = self.val.chars().nth(self.policy.min - 1).unwrap() == self.policy.letter;
         let pr_at_pos_2 = self.val.chars().nth(self.policy.max - 1).unwrap() == self.policy.letter;
 

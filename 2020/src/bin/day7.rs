@@ -21,7 +21,7 @@ fn main() -> Result<()> {
         .lines()
         .map(|line| line.parse::<String>().expect("line is not a string"))
         .for_each(|line| {
-            let split: Vec<&str> = line.split(" ").collect();
+            let split: Vec<&str> = line.split(' ').collect();
             let name = split[0..2].join(" ");
             let contains = split[4..].join(" ");
             let contains = &contains.replace(".", "");
@@ -36,7 +36,7 @@ fn main() -> Result<()> {
             let contains = contains
                 .split(", ")
                 .map(|bag| {
-                    let split = bag.split(" ").collect::<Vec<&str>>();
+                    let split = bag.split(' ').collect::<Vec<&str>>();
                     let quantity: u16 = split[0].parse().expect("unable to parse quantity");
 
                     Bag::new(split[1..3].join(" "), quantity)
@@ -100,7 +100,7 @@ fn check_if_contains(bags: &HashMap<String, Vec<Bag>>, contains: Option<&Vec<Bag
 
 fn get_bags<'a>(bags: &'a HashMap<String, Vec<Bag>>, bag: &Bag) -> Option<&'a Vec<Bag>> {
     for (b, contains) in bags.iter() {
-        if bag.name == *b && contains.len() > 0 {
+        if bag.name == *b && !contains.is_empty() {
             return Some(contains);
         }
     }
