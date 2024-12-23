@@ -6,3 +6,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.95"
 itertools = "0.13.0"
+
+[[bin]]
+name = "day01"
+path = "src/day01/bin.rs"
