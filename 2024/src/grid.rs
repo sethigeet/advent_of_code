@@ -13,6 +13,24 @@ pub struct Point<T = usize> {
     pub y: T,
 }
 
+impl Into<Point<i32>> for Point<usize> {
+    fn into(self) -> Point<i32> {
+        Point {
+            x: self.x as i32,
+            y: self.y as i32,
+        }
+    }
+}
+
+impl Into<Point<usize>> for Point<i32> {
+    fn into(self) -> Point<usize> {
+        Point {
+            x: self.x as usize,
+            y: self.y as usize,
+        }
+    }
+}
+
 impl<T: Add<Output = T>> Add for Point<T> {
     type Output = Point<T>;
 
@@ -66,6 +84,14 @@ impl<T> Grid<T> {
             row.get(point.x)
         } else {
             None
+        }
+    }
+
+    pub fn set(&mut self, point: Point<usize>, value: T) {
+        if let Some(row) = self.grid.get_mut(point.y) {
+            if let Some(cell) = row.get_mut(point.x) {
+                *cell = value;
+            }
         }
     }
 
